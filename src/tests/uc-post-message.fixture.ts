@@ -35,9 +35,9 @@ export class UCPostMessageFixture {
   };
 
   when = {
-    post: ($message: MessageInput) => {
+    post: async ($message: MessageInput) => {
       try {
-        this.usecase.handle($message);
+        await this.usecase.handle($message);
       } catch (error) {
         this.error = error;
       }

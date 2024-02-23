@@ -29,14 +29,14 @@ program.version("0.0.1")
     new Command("post")
       .argument("<user>", "The current user")
       .argument("<message>", "The message to post")
-      .action((user, $message) => {
+      .action(async (user, $message) => {
         const message: Message = {
           date: new Date(),
           author: user,
           message: $message
         };
         try {
-          usecase.handle(message);
+          await usecase.handle(message);
           console.info("✅ Message posted!");
           console.table([repository.message]);
         } catch (error) {

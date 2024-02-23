@@ -30,13 +30,13 @@ export class PostMessageUsecase {
   ) {
   };
 
-  handle(message: MessageInput) {
+  async handle(message: MessageInput) {
     if (message.message.length > 280) {
       throw new MessageLengthError();
     }
     if (!message.message.trim()) {
       throw new MessageEmptyError();
     }
-    this.repository.save({ ...message, date: this.provider.now });
+    await this.repository.save({...message, date: this.provider.now});
   }
 }

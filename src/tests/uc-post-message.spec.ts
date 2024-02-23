@@ -10,9 +10,9 @@ describe("Feature: Posting a message", () => {
 
   describe("Rule: A message can contain a maximum of 280 characters", () => {
 
-    test("Alice can post a message~", () => {
+    test("Alice can post a message~", async () => {
       fixture.given.date(new Date("2024-02-15T10:00:00Z"));
-      fixture.when.post({ message: "I love the weather today~", author: "Alice" });
+      await fixture.when.post({ message: "I love the weather today~", author: "Alice" });
       fixture.then.message.equals({
         message: "I love the weather today~",
         author: "Alice",
@@ -20,24 +20,24 @@ describe("Feature: Posting a message", () => {
       });
     });
 
-    test("Alice can not post a message~", () => {
+    test("Alice can not post a message~", async () => {
       fixture.given.date(new Date("2024-02-15T10:00:00Z"));
-      fixture.when.post({ message: "X".repeat(281), author: "Alice" });
+      await fixture.when.post({ message: "X".repeat(281), author: "Alice" });
       fixture.then.error.is(MessageLengthError);
     });
 
   });
   describe("Rule: A message can not be empty", () => {
 
-    test("Alice can not post message~", () => {
+    test("Alice can not post message~", async () => {
       fixture.given.date(new Date("2024-02-15T10:00:00Z"));
-      fixture.when.post({ message: String(), author: "Alice" });
+      await fixture.when.post({ message: String(), author: "Alice" });
       fixture.then.error.is(MessageEmptyError);
     });
 
-    test("Alice can not post message with blank spaces~", () => {
+    test("Alice can not post message with blank spaces~", async () => {
       fixture.given.date(new Date("2024-02-15T10:00:00Z"));
-      fixture.when.post({ message: "     ", author: "Alice" });
+      await fixture.when.post({ message: "     ", author: "Alice" });
       fixture.then.error.is(MessageEmptyError);
     });
 

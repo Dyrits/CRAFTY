@@ -1,10 +1,7 @@
+import { MessageRepository } from "../repositories/message.repository";
+
 export type MessageInput = { message: string; author: string };
 export type Message = MessageInput & { date: Date };
-
-export interface MessageRepository {
-  message: Message;
-  save: (message: Message) => void;
-}
 
 export interface DateProvider {
   _now: Date;
@@ -26,7 +23,7 @@ export class MessageEmptyError extends Error {
   }
 }
 
-export class UCPostMessage {
+export class PostMessageUsecase {
   constructor(
     private readonly repository: MessageRepository,
     private readonly provider: DateProvider

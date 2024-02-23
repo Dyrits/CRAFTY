@@ -1,6 +1,9 @@
-import { DateProvider, Message, MessageInput, MessageRepository, UCPostMessage } from "../usecases/uc-post-message";
+import { DateProvider, Message, MessageInput, PostMessageUsecase } from "../usecases/post-message.usecase";
 
-class StubDateProvider implements DateProvider {
+import { MessageRepository } from "../repositories/message.repository";
+import { InMemoryMessageRepository } from "../repositories/message-in-memory.repository";
+
+export class StubDateProvider implements DateProvider {
   _now: Date;
 
   set now($now: Date) {
@@ -12,26 +15,17 @@ class StubDateProvider implements DateProvider {
   }
 }
 
-class InMemoryMessageRepository implements MessageRepository {
-  message: Message;
-
-  save(message: Message) {
-    this.message = message;
-  }
-}
-
-
 export class UCPostMessageFixture {
   // Variables
   error: Error;
   repository: MessageRepository;
   providers: {  date: DateProvider };
-  usecase: UCPostMessage;
+  usecase: PostMessageUsecase;
 
   constructor() {
     this.providers = { date: new StubDateProvider() };
     this.repository = new InMemoryMessageRepository();
-    this.usecase = new UCPostMessage(this.repository, this.providers.date);
+    this.usecase = new PostMessageUsecase(this.repository, this.providers.date);
   }
 
   given = {

@@ -1,4 +1,4 @@
-import { MessageLengthError, MessageEmptyError } from "../usecases/uc-post-message";
+import { MessageLengthError, MessageEmptyError } from "../usecases/post-message.usecase";
 import { UCPostMessageFixture } from "./uc-post-message.fixture";
 
 describe("Feature: Posting a message", () => {

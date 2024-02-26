@@ -1,15 +1,6 @@
-import { MessageRepository } from "../repositories/message.repository";
-
-export type MessageInput = { message: string; author: string };
-export type Message = MessageInput & { date: Date };
-
-export interface DateProvider {
-  _now: Date;
-
-  get now(): Date;
-
-  set now(date: Date);
-}
+import { MessageRepository } from "../repositories";
+import { DateProvider } from "../providers";
+import { MessageInput } from "../types";
 
 export class MessageLengthError extends Error {
   constructor() {

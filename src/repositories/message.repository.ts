@@ -1,6 +1,9 @@
-import { Message } from "../usecases/post-message.usecase";
+import { Message } from "../types";
 
 export interface MessageRepository {
-  message: Message;
+  _messages: Message[];
   save: (message: Message) => Promise<void>;
+
+  get messages(): Message[];
+  set messages(messages: Message[]);
 }

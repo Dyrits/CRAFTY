@@ -1,19 +1,7 @@
-import { DateProvider, Message, MessageInput, PostMessageUseCase } from "../usecases/post-message.usecase";
-
-import { MessageRepository } from "../repositories/message.repository";
-import { InMemoryMessageRepository } from "../repositories/message-in-memory.repository";
-
-export class StubDateProvider implements DateProvider {
-  _now: Date;
-
-  set now($now: Date) {
-    this._now = $now;
-  }
-
-  get now() {
-    return this._now;
-  }
-}
+import { DateProvider, StubDateProvider } from "../providers";
+import { InMemoryMessageRepository, MessageRepository } from "../repositories";
+import { Message, MessageInput } from "../types";
+import { PostMessageUseCase } from "../usecases";
 
 export class UCPostMessageFixture {
   // Variables
@@ -23,8 +11,8 @@ export class UCPostMessageFixture {
   usecase: PostMessageUseCase;
 
   constructor() {
-    this.providers = { date: new StubDateProvider() };
     this.repository = new InMemoryMessageRepository();
+    this.providers = { date: new StubDateProvider() };
     this.usecase = new PostMessageUseCase(this.repository, this.providers.date);
   }
 
@@ -35,9 +23,9 @@ export class UCPostMessageFixture {
   };
 
   when = {
-    post: async ($message: MessageInput) => {
+    post: async (message: MessageInput) => {
       try {
-        await this.usecase.handle($message);
+        await this.usecase.handle(message);
       } catch (error) {
         this.error = error;
       }
@@ -47,7 +35,7 @@ export class UCPostMessageFixture {
   then = {
     message: {
       equals: (message: Message) => {
-        expect(message).toEqual(this.repository.message);
+        expect(message).toEqual(this.repository.messages[0]);
       }
     },
     error: {

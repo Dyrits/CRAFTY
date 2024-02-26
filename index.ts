@@ -3,7 +3,7 @@
 import { Command } from "commander";
 
 import { DateProvider, Message, PostMessageUseCase } from "./src/usecases/post-message.usecase";
-import { InMemoryMessageRepository } from "./src/repositories/message-in-memory.repository";
+import { FileSystemMessageRepository } from "./src/repositories";
 
 class RealDateProvider implements DateProvider {
   _now: Date;
@@ -17,7 +17,7 @@ class RealDateProvider implements DateProvider {
   }
 }
 
-const repository = new InMemoryMessageRepository();
+const repository = new FileSystemMessageRepository();
 const provider = new RealDateProvider();
 const usecase = new PostMessageUseCase(repository, provider);
 

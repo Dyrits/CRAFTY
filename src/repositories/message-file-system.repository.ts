@@ -10,6 +10,14 @@ export class FileSystemMessageRepository implements MessageRepository {
 
     async save(message: Message) {
         this.message = message;
-        return fs.promises.writeFile(path.join(__dirname, 'message.json'), JSON.stringify(this.message));
+        const file = path.join(__dirname, 'message.json');
+        let messages: Message[] = [];
+
+        if (fs.existsSync(file)) {
+            const content = await fs.promises.readFile(file, 'utf-8');
+            messages = JSON.parse(content);
+        }
+        messages.push(this.message );
+        return fs.promises.writeFile(file, JSON.stringify(messages));
     }
 }

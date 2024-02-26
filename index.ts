@@ -2,7 +2,7 @@
 
 import { Command } from "commander";
 
-import { DateProvider, Message, PostMessageUsecase } from "./src/usecases/post-message.usecase";
+import { DateProvider, Message, PostMessageUseCase } from "./src/usecases/post-message.usecase";
 import { InMemoryMessageRepository } from "./src/repositories/message-in-memory.repository";
 
 class RealDateProvider implements DateProvider {
@@ -19,7 +19,7 @@ class RealDateProvider implements DateProvider {
 
 const repository = new InMemoryMessageRepository();
 const provider = new RealDateProvider();
-const usecase = new PostMessageUsecase(repository, provider);
+const usecase = new PostMessageUseCase(repository, provider);
 
 const program = new Command();
 

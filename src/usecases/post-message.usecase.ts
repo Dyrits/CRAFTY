@@ -23,7 +23,7 @@ export class MessageEmptyError extends Error {
   }
 }
 
-export class PostMessageUsecase {
+export class PostMessageUseCase {
   constructor(
     private readonly repository: MessageRepository,
     private readonly provider: DateProvider

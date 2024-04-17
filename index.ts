@@ -2,8 +2,10 @@
 
 import { Command } from "commander";
 
-import { DateProvider, Message, PostMessageUseCase } from "./src/usecases/post-message.usecase";
+import {  PostMessageUseCase } from "./src/usecases/post-message.usecase";
 import { FileSystemMessageRepository } from "./src/repositories";
+import { DateProvider } from "./src/providers";
+import { Message } from "./src/types";
 
 class RealDateProvider implements DateProvider {
   _now: Date;
@@ -38,7 +40,7 @@ program.version("0.0.1")
         try {
           await usecase.handle(message);
           console.info("✅ Message posted!");
-          console.table([repository.message]);
+          console.table([repository.messages]);
         } catch (error) {
           console.error("❌", error.message);
         }

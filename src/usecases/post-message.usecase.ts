@@ -5,12 +5,14 @@ import { MessageInput } from "../types";
 export class MessageLengthError extends Error {
   constructor() {
     super("Message can contain a maximum of 280 characters~");
+    Object.setPrototypeOf(this, MessageLengthError.prototype)
   }
 }
 
 export class MessageEmptyError extends Error {
   constructor() {
     super("Message cannot be empty~");
+    Object.setPrototypeOf(this, MessageEmptyError.prototype)
   }
 }
 

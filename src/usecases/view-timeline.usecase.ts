@@ -25,6 +25,6 @@ export class ViewTimelineUseCase {
     const minutes = Math.floor(seconds / 60);
     const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
-    return days ? `${days} day(s) ago` : hours ? `${hours} hour(s) ago` : minutes ? `${minutes} minute(s) ago` : `${seconds} second(s) ago`;
+    return days ? `${days} day(s) ago` : hours ? `${hours} hour(s) ago` : minutes ? `${minutes} minute(s) ago` : `Less than a minute ago`;
   }
 }

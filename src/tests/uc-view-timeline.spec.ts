@@ -1,10 +1,11 @@
-import { UcViewTimelineFixture } from "./uc-view-timeline.fixture";
+import { UCViewTimelineFixture } from "./uc-view-timeline.fixture";
+import { getElapsed } from "../helpers/datetime.helper";
 
 describe("Feature: Viewing a personal timeline", () => {
-  let fixture: UcViewTimelineFixture;
+  let fixture: UCViewTimelineFixture;
 
   beforeEach(() => {
-    fixture = new UcViewTimelineFixture();
+    fixture = new UCViewTimelineFixture();
   });
 
   describe("Rule: Messages are show in reverse chronological order", () => {
@@ -48,8 +49,41 @@ describe("Feature: Viewing a personal timeline", () => {
           message: "I love the weather today~",
           author: "Alice",
           elapsed: "1 hour(s) ago"
-        },
-    ]);
+        }
+      ]);
+    });
+  });
+
+  describe("(Helper) Rule: The elapsed time is calculated from the date of a message", () => {
+    test(`The elapsed time should be "Less than a minute ago" when the publication time is less than a minute ago`, async () => {
+      const now = new Date("2024-04-15T09:40:00Z");
+      const date = new Date("2024-04-15T09:39:45Z");
+      const text = getElapsed(date, now);
+      expect(text).toBe("Less than a minute ago");
+    });
+    test(`The elapsed time should be "1 minute(s) ago" when the publication time is 1 minute ago`, async () => {
+      const now = new Date("2024-04-15T09:40:00Z");
+      const date = new Date("2024-04-15T09:39:00Z");
+      const text = getElapsed(date, now);
+      expect(text).toBe("1 minute(s) ago");
+    });
+    test(`The elapsed time should be "1 minute(s) ago" when the publication time is  less than 2 minutes ago`, async () => {
+      const now = new Date("2024-04-15T09:40:00Z");
+      const date = new Date("2024-04-15T09:38:30Z");
+      const text = getElapsed(date, now);
+      expect(text).toBe("1 minute(s) ago");
+    });
+    test(`The elapsed time should be "5 minute(s) ago" when the publication time is  more than 5 minutes ago but less than 6 minutes ago`, async () => {
+      const now = new Date("2024-04-15T09:40:00Z");
+      const date = new Date("2024-04-15T09:34:15Z");
+      const text =getElapsed(date, now);
+      expect(text).toBe("5 minute(s) ago");
+    });
+    test(`The elapsed time should be "1 hour(s) ago" when the publication time is 1 hour ago`, async () => {
+      const now = new Date("2024-04-15T09:40:00Z");
+      const date = new Date("2024-04-15T08:40:00Z");
+      const text = getElapsed(date, now);
+      expect(text).toBe("1 hour(s) ago");
     });
   });
 });

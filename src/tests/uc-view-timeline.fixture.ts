@@ -3,7 +3,7 @@ import { InMemoryMessageRepository, MessageRepository } from "../repositories";
 import { Timeline, Message } from "../types";
 import { ViewTimelineUseCase } from "../usecases";
 
-export class UcViewTimelineFixture {
+export class UCViewTimelineFixture {
   timeline:  Timeline;
   repository: MessageRepository;
   providers: {  date: DateProvider };

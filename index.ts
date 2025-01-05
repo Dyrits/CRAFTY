@@ -2,8 +2,11 @@
 
 import { Command } from "commander";
 
-import { DateProvider, Message, PostMessageUseCase } from "./src/usecases/post-message.usecase";
+import { DateProvider } from "./src/providers";
+import { PostMessageUseCase } from "./src/usecases";
 import { FileSystemMessageRepository } from "./src/repositories";
+import { Message, MessageInput } from "./src/types";
+import { builders } from "./src/tests/builders";
 
 class RealDateProvider implements DateProvider {
   _now: Date;
@@ -30,15 +33,14 @@ program.version("0.0.1")
       .argument("<user>", "The current user")
       .argument("<message>", "The message to post")
       .action(async (user, $message) => {
-        const message: Message = {
-          date: new Date(),
+        const message: MessageInput = {
           author: user,
           message: $message
         };
         try {
           await usecase.handle(message);
           console.info("✅ Message posted!");
-          console.table([repository.message]);
+          console.table([repository.messages]);
         } catch (error) {
           console.error("❌", error.message);
         }

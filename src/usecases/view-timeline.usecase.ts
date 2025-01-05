@@ -15,7 +15,7 @@ export class ViewTimelineUseCase {
     const messages = this.repository.messages.filter(message => message.author === author);
     return messages.sort((date$1, date$2) => date$2.date.getTime() - date$1.date.getTime()).map(message => {
       const elapsed = this.getElapsed(message.date);
-      return { message: message.message, author: message.author, elapsed };
+      return { id: message.id, message: message.message, author: message.author, elapsed };
     });
   }
 

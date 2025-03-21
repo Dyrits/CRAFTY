@@ -1,6 +1,6 @@
 import { MessageRepository } from "../repositories";
 import { DateProvider } from "../providers";
-import { MessageInput } from "../types";
+import { NewMessage } from "../types";
 import { MessageEmptyError, MessageLengthError } from "../errors";
 
 export class PostMessageUseCase {
@@ -10,13 +10,16 @@ export class PostMessageUseCase {
   ) {
   };
 
-  async handle(message: MessageInput) {
+  async handle(message: NewMessage) {
+
     if (message.message.length > 280) {
       throw new MessageLengthError();
     }
+
     if (!message.message.trim()) {
       throw new MessageEmptyError();
     }
-    await this.repository.save({...message, date: this.provider.now});
+
+    await this.repository.save({...message, id: message.id || crypto.randomUUID(), date: this.provider.now });
   }
 }

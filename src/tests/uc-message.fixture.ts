@@ -1,6 +1,6 @@
 import { DateProvider, StubDateProvider } from "../providers";
 import { InMemoryMessageRepository, MessageRepository } from "../repositories";
-import { Message, MessageInput } from "../types";
+import { Message, NewMessage, UpdatedMessage } from "../types";
 import { PostMessageUseCase } from "../usecases";
 import { EditMessageUseCase } from "../usecases/edit-message.usecase";
 
@@ -19,7 +19,7 @@ export class UCMessageFixture {
     this.providers = { date: new StubDateProvider() };
     this.usecases = {
       post: new PostMessageUseCase(this.repository, this.providers.date),
-      edit: new EditMessageUseCase(this.repository),
+      edit: new EditMessageUseCase(this.repository, this.providers.date),
     };
   }
 
@@ -33,14 +33,14 @@ export class UCMessageFixture {
   };
 
   when = {
-    post: async (message: MessageInput) => {
+    post: async (message: NewMessage) => {
       try {
         await this.usecases.post.handle(message);
       } catch (error) {
         this.error = error;
       }
     },
-    edit: async (message: { id: string, message: string }) => {
+    edit: async (message: UpdatedMessage) => {
       try {
         await this.usecases.edit.handle(message);
       } catch (error) {

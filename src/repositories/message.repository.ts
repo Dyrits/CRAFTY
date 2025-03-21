@@ -1,9 +1,10 @@
-import { Message } from "../types";
+import { Message, NewMessage, UpdatedMessage } from "../types";
 
 export interface MessageRepository {
   _messages: Message[];
-  save: (message: Partial<Message>) => Promise<void>;
-  update: (message: { id: string, message: string }) => Promise<void>;
+  save: (message: Message) => Promise<void>;
+  get: (id: string) => Promise<Message>;
+  update: (message: Message) => Promise<void>;
 
   get messages(): Message[];
   set messages(messages: Message[]);

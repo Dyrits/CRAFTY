@@ -1,20 +1,22 @@
 import { MessageRepository } from "./message.repository";
 import { Message } from "../types";
+import * as crypto from "node:crypto";
 
 export class InMemoryMessageRepository implements MessageRepository {
   _messages: Message[] = [];
 
-  async save(message: Partial<Message>) {
-    // @TODO: Add the identifier to the message.
-    this._messages.unshift(message as Message);
+  async save(message: Message) {
+    message.id = message.id || crypto.randomUUID();
+    this._messages.unshift(message);
   }
 
-  async update(message: { id: string, message: string }) {
-    const index = this._messages.findIndex($message => $message.id === message.id);
-    if (!~index) {
-      throw new Error("No message found with the given id.");
-    }
-    this._messages[index].message = message.message;
+  async update(message: Message) {
+    const index = this._messages.findIndex(($message) => $message.id === message.id);
+    this._messages[index] = message;
+  }
+
+  async get(id: string) {
+    return this._messages.find((message) => message.id === id);
   }
 
   get messages() {

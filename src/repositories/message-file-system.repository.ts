@@ -1,18 +1,15 @@
-import * as fs from "fs";
-import * as path from "path";
-
-import { MessageRepository } from "./message.repository";
-import { Message } from "../types";
-import * as crypto from "node:crypto";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import type { Message } from "../types";
+import type { MessageRepository } from "./message.repository";
 
 export class FileSystemMessageRepository implements MessageRepository {
   _messages: Message[] = [];
 
-  private constructor() {
-  }
+  private constructor(private readonly file: string) {}
 
-  static async AsyncNew(): Promise<MessageRepository> {
-    const instance = new FileSystemMessageRepository();
+  static async AsyncNew(file: string = path.join(__dirname, "message.json")): Promise<MessageRepository> {
+    const instance = new FileSystemMessageRepository(file);
     await instance.read();
     return instance;
   }
@@ -24,38 +21,38 @@ export class FileSystemMessageRepository implements MessageRepository {
 
   async update(message: Message) {
     const index = this._messages.findIndex(($message) => $message.id === message.id);
-    this._messages[index] = message;
-    await this.write();
+    if (~index) {
+      this._messages[index] = message;
+      await this.write();
+    }
   }
 
   async get(id: string) {
-    return this._messages.find((message) => message.id === id);
+    return this._messages.find((message) => message.id === id) || null;
   }
 
   get messages() {
     return this._messages;
   }
 
-  set messages(messages: Message[]) {
+  set messages(_messages: Message[]) {
     throw new Error("Messages cannot be set directly. The save method must be used to add a new message.");
   }
 
   private async read() {
-    const file = path.join(__dirname, "message.json");
     try {
-      const content = await fs.promises.readFile(file, "utf-8");
+      const content = await fs.promises.readFile(this.file, "utf-8");
       const messages = JSON.parse(content);
       this._messages = messages.map((message: Message) => ({
         ...message,
         date: new Date(message.date)
       }));
-    } catch (error) {
+    } catch (_error) {
       this._messages = [];
     }
   }
 
   private async write() {
-    const file = path.join(__dirname, "message.json");
-    return fs.promises.writeFile(file, JSON.stringify(this._messages));
+    return fs.promises.writeFile(this.file, JSON.stringify(this._messages));
   }
 }

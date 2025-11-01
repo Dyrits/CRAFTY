@@ -1,6 +1,6 @@
-import { DateProvider } from "../providers";
-import { MessageRepository } from "../repositories";
-import { Timeline } from "../types";
+import type { DateProvider } from "../providers";
+import type { MessageRepository } from "../repositories";
+import type { Timeline } from "../types";
 
 export class ViewTimelineUseCase {
   repository: MessageRepository;
@@ -12,11 +12,13 @@ export class ViewTimelineUseCase {
   }
 
   async handle({ author }: { author: string }): Promise<Timeline> {
-    const messages = this.repository.messages.filter(message => message.author === author);
-    return messages.sort((date$1, date$2) => date$2.date.getTime() - date$1.date.getTime()).map(message => {
-      const elapsed = this.getElapsed(message.date);
-      return { id: message.id, message: message.message, author: message.author, elapsed };
-    });
+    const messages = this.repository.messages.filter((message) => message.author === author);
+    return messages
+      .sort((date$1, date$2) => date$2.date.getTime() - date$1.date.getTime())
+      .map((message) => {
+        const elapsed = this.getElapsed(message.date);
+        return { id: message.id, message: message.message, author: message.author, elapsed };
+      });
   }
 
   private getElapsed(from: Date, to: Date = this.provider.now) {

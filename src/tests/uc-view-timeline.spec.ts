@@ -1,5 +1,5 @@
-import { UcViewTimelineFixture } from "./uc-view-timeline.fixture";
 import { builders } from "./builders";
+import { UcViewTimelineFixture } from "./uc-view-timeline.fixture";
 
 describe("Feature: Viewing a personal timeline", () => {
   let fixture: UcViewTimelineFixture;
@@ -40,7 +40,7 @@ describe("Feature: Viewing a personal timeline", () => {
           author: "Alice",
           elapsed: "1 hour(s) ago"
         })
-    ]);
+      ]);
     });
   });
 });

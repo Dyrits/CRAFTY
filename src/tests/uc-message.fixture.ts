@@ -1,25 +1,27 @@
-import { DateProvider, StubDateProvider } from "../providers";
-import { InMemoryMessageRepository, MessageRepository } from "../repositories";
-import { Message, NewMessage, UpdatedMessage } from "../types";
+import { ZodError } from "zod";
+import type { ErrorMessage } from "../errors";
+import { type DateProvider, StubDateProvider } from "../providers";
+import { InMemoryMessageRepository, type MessageRepository } from "../repositories";
+import type { Message, NewMessage, UpdatedMessage } from "../types";
 import { PostMessageUseCase } from "../usecases";
 import { EditMessageUseCase } from "../usecases/edit-message.usecase";
 
 export class UCMessageFixture {
   // Variables
-  error: Error;
+  error: Error | ZodError | null = null;
   repository: MessageRepository;
-  providers: {  date: DateProvider };
+  providers: { date: DateProvider };
   usecases: {
-    post: PostMessageUseCase,
-    edit: EditMessageUseCase,
-  }
+    post: PostMessageUseCase;
+    edit: EditMessageUseCase;
+  };
 
   constructor() {
     this.repository = new InMemoryMessageRepository();
     this.providers = { date: new StubDateProvider() };
     this.usecases = {
       post: new PostMessageUseCase(this.repository, this.providers.date),
-      edit: new EditMessageUseCase(this.repository, this.providers.date),
+      edit: new EditMessageUseCase(this.repository, this.providers.date)
     };
   }
 
@@ -37,14 +39,14 @@ export class UCMessageFixture {
       try {
         await this.usecases.post.handle(message);
       } catch (error) {
-        this.error = error;
+        this.error = error as Error | ZodError;
       }
     },
     edit: async (message: UpdatedMessage) => {
       try {
         await this.usecases.edit.handle(message);
       } catch (error) {
-        this.error = error;
+        this.error = error as Error | ZodError;
       }
     }
   };
@@ -56,8 +58,12 @@ export class UCMessageFixture {
       }
     },
     error: {
-      is: (error: new () => Error) => {
-        expect(this.error).toBeInstanceOf(error);
+      has: (error: ErrorMessage) => {
+        if (this.error instanceof ZodError) {
+          expect(this.error.issues.map((issue) => issue.message)).toContain(error);
+        } else if (this.error) {
+          expect(this.error.message).toBe(error);
+        }
       }
     }
   };

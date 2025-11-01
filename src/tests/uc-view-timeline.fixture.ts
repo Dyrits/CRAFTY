@@ -1,12 +1,12 @@
-import { DateProvider, StubDateProvider } from "../providers";
-import { InMemoryMessageRepository, MessageRepository } from "../repositories";
-import { Timeline, Message } from "../types";
+import { type DateProvider, StubDateProvider } from "../providers";
+import { InMemoryMessageRepository, type MessageRepository } from "../repositories";
+import type { Message, Timeline } from "../types";
 import { ViewTimelineUseCase } from "../usecases";
 
 export class UcViewTimelineFixture {
-  timeline:  Timeline;
+  timeline: Timeline = [];
   repository: MessageRepository;
-  providers: {  date: DateProvider };
+  providers: { date: DateProvider };
   usecase: ViewTimelineUseCase;
 
   constructor() {
@@ -22,13 +22,13 @@ export class UcViewTimelineFixture {
     date: (date: Date) => {
       this.providers.date.now = date;
     }
-  }
+  };
 
   when = {
     view: async (author: string) => {
       this.timeline = await this.usecase.handle({ author });
     }
-  }
+  };
 
   then = {
     timeline: {
@@ -36,5 +36,5 @@ export class UcViewTimelineFixture {
         expect(timeline).toEqual(this.timeline);
       }
     }
-  }
+  };
 }

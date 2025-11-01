@@ -1,6 +1,6 @@
-import { MessageRepository } from "./message.repository";
-import { Message } from "../types";
 import * as crypto from "node:crypto";
+import type { Message } from "../types";
+import type { MessageRepository } from "./message.repository";
 
 export class InMemoryMessageRepository implements MessageRepository {
   _messages: Message[] = [];
@@ -16,7 +16,7 @@ export class InMemoryMessageRepository implements MessageRepository {
   }
 
   async get(id: string) {
-    return this._messages.find((message) => message.id === id);
+    return this._messages.find((message) => message.id === id) || null;
   }
 
   get messages() {
@@ -27,4 +27,3 @@ export class InMemoryMessageRepository implements MessageRepository {
     this._messages = messages;
   }
 }
-

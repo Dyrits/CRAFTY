@@ -1,22 +1,15 @@
-import { MessageRepository } from "../repositories";
-import { DateProvider } from "../providers";
-import { MessageEmptyError, MessageLengthError } from "../errors";
+import type { DateProvider } from "../providers";
+import type { MessageRepository } from "../repositories";
+import { type UpdatedMessage, zUpdatedMessage } from "../types";
 
 export class EditMessageUseCase {
   constructor(
     private readonly repository: MessageRepository,
     private readonly provider: DateProvider
-  ) {
-  };
+  ) {}
 
-  async handle(message: { author: string, id: string, message: string }) {
-    if (message.message.length > 280) {
-      throw new MessageLengthError();
-    }
-
-    if (!message.message.trim()) {
-      throw new MessageEmptyError();
-    }
+  async handle(message: UpdatedMessage) {
+    zUpdatedMessage.parse(message);
 
     const $message = await this.repository.get(message.id);
 
@@ -30,6 +23,6 @@ export class EditMessageUseCase {
       throw new Error("Only the author of a message can edit it.");
     }
 
-    await this.repository.update({...$message, ...message, date: this.provider.now });
+    await this.repository.update({ ...$message, ...message, date: this.provider.now });
   }
 }

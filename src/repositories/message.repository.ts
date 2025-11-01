@@ -1,9 +1,9 @@
-import { Message, NewMessage, UpdatedMessage } from "../types";
+import type { Message } from "../types";
 
 export interface MessageRepository {
   _messages: Message[];
   save: (message: Message) => Promise<void>;
-  get: (id: string) => Promise<Message>;
+  get: (id: string) => Promise<Message | null>;
   update: (message: Message) => Promise<void>;
 
   get messages(): Message[];

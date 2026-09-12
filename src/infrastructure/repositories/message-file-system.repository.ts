@@ -1,7 +1,7 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import type { Message } from "../types";
-import type { MessageRepository } from "./message.repository";
+import type { MessageRepository } from "../../application/message.repository.interface";
+import type { Message } from "../../domain/message";
 
 export class FileSystemMessageRepository implements MessageRepository {
   _messages: Message[] = [];

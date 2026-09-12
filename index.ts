@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 
 import { Command } from "commander";
-
-import type { DateProvider } from "./src/providers";
-import { FileSystemMessageRepository } from "./src/repositories";
-import type { NewMessage, UpdatedMessage } from "./src/types";
-import { PostMessageUseCase, ViewTimelineUseCase } from "./src/usecases";
-import { EditMessageUseCase } from "./src/usecases/edit-message.usecase";
+import type { DateProvider } from "./src/application/date.provider";
+import { PostMessageUseCase, ViewTimelineUseCase } from "./src/application/usecases";
+import { EditMessageUseCase } from "./src/application/usecases/edit-message.usecase";
+import type { NewMessage, UpdatedMessage } from "./src/domain/message";
+import { FileSystemMessageRepository } from "./src/infrastructure/repositories";
 
 class RealDateProvider implements DateProvider {
   _now: Date;

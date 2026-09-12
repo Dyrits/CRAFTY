@@ -1,7 +1,9 @@
-import { type DateProvider, StubDateProvider } from "../providers";
-import { InMemoryMessageRepository, type MessageRepository } from "../repositories";
-import type { Message, Timeline } from "../types";
-import { ViewTimelineUseCase } from "../usecases";
+import type { DateProvider } from "../application/date.provider";
+import type { MessageRepository } from "../application/message.repository.interface";
+import { ViewTimelineUseCase } from "../application/usecases";
+import type { Message, Timeline } from "../domain/message";
+import { StubDateProvider } from "../infrastructure/providers";
+import { InMemoryMessageRepository } from "../infrastructure/repositories";
 
 export class UcViewTimelineFixture {
   timeline: Timeline = [];

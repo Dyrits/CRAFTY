@@ -1,10 +1,12 @@
 import { ZodError } from "zod";
-import type { ErrorMessage } from "../errors";
-import { type DateProvider, StubDateProvider } from "../providers";
-import { InMemoryMessageRepository, type MessageRepository } from "../repositories";
-import type { Message, NewMessage, UpdatedMessage } from "../types";
-import { PostMessageUseCase } from "../usecases";
-import { EditMessageUseCase } from "../usecases/edit-message.usecase";
+import type { DateProvider } from "../application/date.provider";
+import type { MessageRepository } from "../application/message.repository.interface";
+import { PostMessageUseCase } from "../application/usecases";
+import { EditMessageUseCase } from "../application/usecases/edit-message.usecase";
+import type { ErrorMessage } from "../domain/errors";
+import type { Message, NewMessage, UpdatedMessage } from "../domain/message";
+import { StubDateProvider } from "../infrastructure/providers";
+import { InMemoryMessageRepository } from "../infrastructure/repositories";
 
 export class UCMessageFixture {
   // Variables

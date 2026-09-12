@@ -1,6 +1,6 @@
-import type { DateProvider } from "../providers";
-import type { MessageRepository } from "../repositories";
-import type { Timeline } from "../types";
+import type { Timeline } from "../../domain/message";
+import type { DateProvider } from "../date.provider";
+import type { MessageRepository } from "../message.repository.interface";
 
 export class ViewTimelineUseCase {
   repository: MessageRepository;

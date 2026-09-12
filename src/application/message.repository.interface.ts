@@ -1,4 +1,4 @@
-import type { Message } from "../types";
+import type { Message } from "../domain/message";
 
 export interface MessageRepository {
   _messages: Message[];

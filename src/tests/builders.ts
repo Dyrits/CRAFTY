@@ -1,4 +1,4 @@
-import type { Message, TimeLineMessage } from "../types";
+import type { Message, TimeLineMessage } from "../domain/message";
 
 export const builders = {
   message: ({ id = "#Test-ID", author = "#Test-AUTHOR", message = "#Test-MESSAGE", date = new Date("2024-01-01T10:00:00Z") }: Partial<Message>) => ({

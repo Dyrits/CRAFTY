@@ -1,6 +1,6 @@
 import * as crypto from "node:crypto";
-import type { Message } from "../types";
-import type { MessageRepository } from "./message.repository";
+import type { MessageRepository } from "../../application/message.repository.interface";
+import type { Message } from "../../domain/message";
 
 export class InMemoryMessageRepository implements MessageRepository {
   _messages: Message[] = [];

@@ -1,6 +1,6 @@
 import * as fs from "node:fs";
 import * as path from "node:path";
-import { FileSystemMessageRepository } from "../repositories";
+import { FileSystemMessageRepository } from "../infrastructure/repositories";
 import { builders } from "./builders";
 
 const file = path.join(__dirname, "./messages.test.json");

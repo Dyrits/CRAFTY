@@ -1,4 +1,4 @@
-import type { DateProvider } from "./date.provider";
+import type { DateProvider } from "../../application/date.provider";
 
 export class StubDateProvider implements DateProvider {
   _now: Date = new Date();

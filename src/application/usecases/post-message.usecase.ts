@@ -1,6 +1,6 @@
-import type { DateProvider } from "../providers";
-import type { MessageRepository } from "../repositories";
-import { type NewMessage, zNewMessage } from "../types";
+import { type NewMessage, zNewMessage } from "../../domain/message";
+import type { DateProvider } from "../date.provider";
+import type { MessageRepository } from "../message.repository.interface";
 
 export class PostMessageUseCase {
   constructor(

@@ -1,4 +1,4 @@
-import { ErrorMessage } from "../errors";
+import { ErrorMessage } from "../domain/errors";
 import { builders } from "./builders";
 import { UCMessageFixture } from "./uc-message.fixture";
 
